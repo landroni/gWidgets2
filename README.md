@@ -23,7 +23,7 @@ toolkit libraries, one of the basic R interfaces (`RGtk2`, `tcltk` or
 `Qt`), then `gWidgets2` and one or more of the `gWidgets2XXX`
 packages. The `tcltk` interface is usually the easiest, as the
 underlying graphical toolkit libraries are bundled with the standard
-windows binary of R, thought `RGtk2` and `Qt` versions work with a
+windows binary of R, though `RGtk2` and `Qt` versions work with a
 much richer underlying set of controls.
 
 
