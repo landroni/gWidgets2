@@ -223,7 +223,7 @@ GFilter <- setRefClass("GFilter",
                                                  handler=function(h,...) {
                                                    var <- svalue(varname)
                                                    if(!(var %in% names(DF))) {
-                                                     message(sprintf("There is no variable %s", var))
+                                                     message(sprintf('Variable "%s" not available.', var))
                                                      return()
                                                    }
                                                    
@@ -231,8 +231,9 @@ GFilter <- setRefClass("GFilter",
                                                    names(types)[type]
                                                    add_item(var, var, type=type)
                                                  }, parent=h$obj)
+                               gw <- gvbox(cont=w)
                                nms <- names(DF)
-                               lyt <- glayout(container=w, expand=TRUE, fill=TRUE)
+                               lyt <- glayout(container=gw, expand=TRUE, fill=TRUE)
                                lyt[1,1] <- gettext("Variable:")
 
                                lyt[1,2, expand=TRUE, fill="x"] <- (varname <- gcombobox(nms, selected=1L, # have a selection as otherwise can have issue
@@ -240,9 +241,10 @@ GFilter <- setRefClass("GFilter",
                                                                  container=lyt, handler=function(h,...) {
                                  nm <- svalue(h$obj)
                                  if(! (nm %in% names(DF))) {
-                                   message("Name is not a match")
+                                   svalue(msg) <- "No match found."
                                    visible(type) <- FALSE
                                  } else {
+                                   svalue(msg) <- ""
                                    visible(type) <- TRUE
                                  }
 
@@ -267,13 +269,17 @@ GFilter <- setRefClass("GFilter",
                                  enabled(type) <- TRUE
                                }))
 
-                               
-##                               lyt[2,1, anchor=c(-1,1)] <- gettext("Edit by:")
+                              # lyt[2,1, anchor=c(-1,1)] <- gettext("Edit by:")
 
                                
                                lyt[2,2, expand=TRUE, fill="x"] <- (type <- gradio(types, selected=2, container=lyt))
                                lt <- get_avail_types(nms[1])
                                type[] <- lt$types
+
+                               addSpring(gw)
+                               msg <- glabel("", markup=TRUE, cont=gw)
+                               # font(msg) <- list(color="red")
+                               font(msg) <- list(style="italic")
 
                                visible(w) <- TRUE
                              })
